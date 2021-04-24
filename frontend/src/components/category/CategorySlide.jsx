@@ -40,12 +40,10 @@ const LoadingWapper = styled(AlignTextCenter)`
 `
 
 function CategorySlide ({ data }) {
-  let listNum
 
   const ItemCards = data => {
-    let category
+    let category;
     if (Array.isArray(data)) {
-      listNum = data.length
       category = data.map((data, idx) => (
         <ItemCard key={idx} data={data} size={'S'} />
       ))

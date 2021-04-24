@@ -29,8 +29,6 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <Header />
-      <MainMenu />
       <Category />
     </>
   );
