@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import { theme, AlignTextCenter } from "../Theme";
-import ItemCard from "../ItemCard";
-import useFetch from "../useFetch";
-import Title from "../atomic/Title";
-import { useState } from "react";
+import styled from 'styled-components';
+import { theme, AlignTextCenter } from '../Theme';
+import ItemCard from '../ItemCard';
+import useFetch from '../useFetch';
+import Title from '../atomic/Title';
+import { useState } from 'react';
 
 const MainWrapper = styled.div`
   margin-top: 40px;
@@ -40,10 +40,11 @@ const MainColumn = styled.div`
 
 function MainMenu() {
   let mokData;
-  const basicUrl = "http://15.164.68.136:8080/best/";
+  const basicUrl = 'http://15.164.68.136:8080/best/';
 
   //5개: 탭 전체 데이터 요청
   const [bestDishMenu, bestDishLoading] = useFetch(basicUrl);
+  console.log(bestDishMenu);
   const [clickedID, setClickedID] = useState(1);
   //초기 베스트메뉴 url 설정
   const [fetchData, setFetchData] = useState(basicUrl + clickedID);
@@ -78,7 +79,7 @@ function MainMenu() {
       <MainColumn>
         {!loadingState &&
           mokData.map((data, idx) => (
-            <ItemCard key={idx} data={data} size={"L"}></ItemCard>
+            <ItemCard key={idx} data={data} size={'L'}></ItemCard>
           ))}
       </MainColumn>
     </MainWrapper>

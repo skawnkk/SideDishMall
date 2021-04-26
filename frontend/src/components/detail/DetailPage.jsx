@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import { theme, Button } from "../Theme";
-import { BiX } from "react-icons/bi";
-import ItemPrice from "../atomic/ItemPrice";
-import Badge from "../atomic/Badge";
+import styled from 'styled-components';
+import { theme, Button } from '../Theme';
+import { BiX } from 'react-icons/bi';
+import ItemPrice from '../atomic/ItemPrice';
+import Badge from '../atomic/Badge';
 const DarkBackground = styled.div`
   position: fixed;
   left: 0;
@@ -26,18 +26,18 @@ const RepresentativeBlock = styled.div`
 `;
 const Xstyle = {
   color: theme.colors.white,
-  position: "relative",
-  top: "-320px",
+  position: 'relative',
+  top: '-320px',
 };
 const ImageWrapper = styled.div`
   margin-right: 32px;
 `;
 const MainIMG = styled.div`
   width: ${(props) => {
-    return props.size === "L" ? "392px" : "72px";
+    return props.size === 'L' ? '392px' : '72px';
   }};
   height: ${(props) => {
-    return props.size === "L" ? "392px" : "72px";
+    return props.size === 'L' ? '392px' : '72px';
   }};
   background-image: url(${(props) => props.image});
   background-size: cover;
