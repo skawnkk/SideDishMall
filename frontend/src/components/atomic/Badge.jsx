@@ -1,6 +1,6 @@
 import { theme, AlignTextCenter } from "../Theme";
 import styled from "styled-components";
-const BadgeBlock = styled.div`
+const BadgeWrapper = styled.div`
   display: flex;
 `;
 const BadgeIcon = styled(AlignTextCenter)`
@@ -21,14 +21,14 @@ const BadgeIcon = styled(AlignTextCenter)`
 
 function Badge({ data }) {
   return (
-    <BadgeBlock>
+    <BadgeWrapper>
       {data &&
         data.map((el, idx) => (
           <BadgeIcon key={idx} val={el}>
             {el}
           </BadgeIcon>
         ))}
-    </BadgeBlock>
+    </BadgeWrapper>
   );
 }
 
