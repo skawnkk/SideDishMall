@@ -49,7 +49,7 @@ function CategorySlide ({ width, count, duration, children }) {
   }
   const lastCount = block[block.length - 1].length
   console.log(lastCount);
-  const startX = -lastCount * panelWidth
+  const startX = -panelCount * panelWidth
   // const filterBlock = block.filter((el) => el.length !== 0);
   const [x, setX] = useState(startX) //-1280 //-panelCount * panelWidth
   const [moving, setMoving] = useState(false)
@@ -63,11 +63,7 @@ function CategorySlide ({ width, count, duration, children }) {
       setX(prevX => {
         console.log(blockCount, "왼쪽")
         switch (blockCount) {
-          case 1:
-            return prevX + direction * lastCount * panelWidth
           case block.length:
-            return prevX + direction * (panelCount - lastCount) * panelWidth
-          case block.length -1:
             return prevX + direction * (lastCount) * panelWidth
           default:
             return prevX + direction * panelCount * panelWidth
@@ -76,7 +72,7 @@ function CategorySlide ({ width, count, duration, children }) {
       setBlockCount(prevCnt => {
         console.log(prevCnt)
         switch (blockCount) {
-          case 0:
+          case 1:
             return block.length
           default:
             return --prevCnt
@@ -86,10 +82,8 @@ function CategorySlide ({ width, count, duration, children }) {
       setX(prevX => {
         console.log(blockCount, "오른쪽")
         switch (blockCount) {
-          case block.length - 1: case 0:
+          case block.length - 1: 
             return prevX + direction * lastCount * panelWidth
-          case block.length:
-            return  prevX + direction * (panelCount - lastCount) * panelWidth
           default:
             return prevX + direction * panelCount * panelWidth
         }
@@ -99,7 +93,7 @@ function CategorySlide ({ width, count, duration, children }) {
         console.log(prevCnt)
         switch (blockCount) {
           case block.length:
-            return 0
+            return 1
           default:
             return ++prevCnt
         }
@@ -128,13 +122,13 @@ function CategorySlide ({ width, count, duration, children }) {
     setMoving(false) 
    //(-1) * 4 * 320 * -1280(1)/-2560(2)/-3840(3)
     //startX - panelCount * panelWidth * (block.length - 1) - lastCount * panelWidth
-    if (x === startX - panelCount * panelWidth * (block.length - 1)) {
+    if (x === startX - panelCount * panelWidth * (block.length - 1) - lastCount * panelWidth ) {
       setTransitionValue('none')
-      setX((x) => 0)
+      setX((x) => startX)
     
     } else if (x === 0) {
       setTransitionValue('none') //b a b a
-      setX(startX - panelCount * panelWidth * (block.length - 1)) // -1280*2 //-panelCount * panelWidth * block.length
+      setX(startX - panelCount * panelWidth * (block.length-2) - lastCount * panelWidth ) // -1280*2 //-panelCount * panelWidth * block.length
     }
   }
 
@@ -169,7 +163,7 @@ function CategorySlide ({ width, count, duration, children }) {
         <CatgoryWrapper>
           <CategoryColumn style={ulStyles} onTransitionEnd={onTransitionEnd}>
             {[
-              makeBlock(block[block.length - 1]),
+              makeBlock([ block[block.length - 2][block[block.length - 2].length -1] , ...block[block.length - 1]]),
               ...block.map(makeBlock),
               makeBlock(block[0])
             ]}
@@ -177,10 +171,10 @@ function CategorySlide ({ width, count, duration, children }) {
         </CatgoryWrapper>
       </CategorySlideBlock>
       <ButtonArea>
-        <ButtonLeft onClick={onMove.bind(undefined, +1)}>
+        <ButtonLeft onClick={onMove.bind(undefined, -1)}>
           <VscChevronLeft />
         </ButtonLeft>
-        <ButtonRight onClick={onMove.bind(undefined, -1)}>
+        <ButtonRight onClick={onMove.bind(undefined, +1)}>
           <VscChevronRight />
         </ButtonRight>
       </ButtonArea>
