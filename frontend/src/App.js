@@ -1,6 +1,7 @@
 import React from "react"
 import { Link, Route, BrowserRouter as Router } from "react-router-dom"
 import Home from "./Home"
+import LogIn from "./LogIn"
 
 
 function App() {
@@ -8,9 +9,9 @@ function App() {
     <Router>
       <main>
         <Route exact path="/" component={Home} />
-        <Route path="/logIn" component={About} />
+        <Route path="/logIn" component={LogIn} />
       </main>
-    </Router>
+    </Router> 
   )
 }
 
