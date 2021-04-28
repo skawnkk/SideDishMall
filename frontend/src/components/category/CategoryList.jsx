@@ -42,9 +42,9 @@ function CategoryList({ title, num }) {
 			<TitleWrapper>
 				<Title>{title}</Title>
 			</TitleWrapper>
-			<CategorySlide width={1280} count={4}>
+			<CategorySlide width={1280} count={4}  duration={'.5s'}>
 				{data.map((data, idx) => (
-					<ItemCard key={idx} data={data} size={'S'} />
+					<ItemCard key={idx} data={data} size={'S'}/>
 				))}
 			</CategorySlide>
 		</>

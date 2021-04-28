@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import ItemCard from '../ItemCard'
 import { VscChevronLeft, VscChevronRight } from 'react-icons/vsc'
 import { AlignTextCenter } from '../Theme'
 import { useState, useEffect } from 'react'
+
 const CatgoryWrapper = styled.div`
   width: 1280px;
   padding: 0px;
@@ -38,44 +38,102 @@ const CardWrapper = styled.div`
 const Block = styled.div`
   display: flex;
 `
+function CategorySlide ({ width, count, duration, children }) {
 
-function CategorySlide ({ width, count, children }) {
-  const transitionDefault = 'all .5s'
+  const transitionDefault = `all ${duration}`
   const panelWidth = width / count //320
   const panelCount = count
-
   let block = []
-  for (let i = 0; i < children.length; i++) {
-    if (i === 0) {
-      block.push(children.slice(0, count)) //0-4:0123
-    } else {
-      block.push(children.slice(i * count, count * (i + 1))) //4-8:4567 //8-12: 891011
-    }
+  for (let i = 0; i < children.length; i += count) {
+    block.push(children.slice(i, i + count)) //4-8:4567 //8-12: 891011
   }
-  const filterBlock = block.filter(el => el.length !== 0)
-  console.log(filterBlock)
-  const [x, setX] = useState(-panelCount * panelWidth) //-1280
+  const lastCount = block[block.length - 1].length
+  console.log(lastCount);
+  const startX = -lastCount * panelWidth
+  // const filterBlock = block.filter((el) => el.length !== 0);
+  const [x, setX] = useState(startX) //-1280 //-panelCount * panelWidth
   const [moving, setMoving] = useState(false)
+  const [blockCount, setBlockCount] = useState(1)
   const [trasitionValue, setTransitionValue] = useState(transitionDefault)
 
   const onMove = direction => {
+
     if (moving) return
-    setX(prevX => prevX + direction * panelCount * panelWidth) //-1280 + (-1)*width
+    if (direction + 1) {
+      setX(prevX => {
+        switch (blockCount) {
+          case 1:
+            return prevX + direction * lastCount * panelWidth
+          case block.length:
+            return prevX + direction * (panelCount - lastCount) * panelWidth
+          case block.length -1:
+            return prevX + direction * (lastCount) * panelWidth
+          default:
+            return prevX + direction * panelCount * panelWidth
+        }
+      })
+      setBlockCount(prevCnt => {
+        switch (blockCount) {
+          case 0:
+            return block.length
+          default:
+            return --prevCnt
+        }
+      })
+    } else {
+      setX(prevX => {
+        switch (blockCount) {
+          case block.length - 1: case 0:
+            return prevX + direction * lastCount * panelWidth
+          case block.length:
+            return  prevX + direction * (panelCount - lastCount) * panelWidth
+          default:
+            return prevX + direction * panelCount * panelWidth
+        }
+      })
+
+      setBlockCount(prevCnt => {
+        switch (blockCount) {
+          case block.length:
+            return 0
+          default:
+            return ++prevCnt
+        }
+      })
+    }
+
     setMoving(true)
+    // if (blockCount === block.length - 2) {
+    //   setX(prevX => prevX + direction * lastCount * panelWidth) //-1280 + (-1)*width
+    //   setBlockCount(cnt => (cnt += -direction))
+    // } else if (blockCount === block.length - 1) {
+    //   setX(prevX =>
+    //     direction === -1
+    //       ? prevX + direction * panelCount * panelWidth
+    //       : prevX + direction * lastCount * panelWidth
+    //   )
+    //   setBlockCount(0)
+    // } else {
+    //   setX(prevX => prevX + direction * panelCount * panelWidth) //-1280 + (-1)*width
+    //   setBlockCount(prevCnt => ++direction * prevCnt)
+    // }
+    // setMoving(true)
   }
 
   const onTransitionEnd = () => {
-    setMoving(false)
-    if (x === -panelCount * panelWidth * (filterBlock.length + 1)) {
-      console.log(x)
+    setMoving(false) 
+   //(-1) * 4 * 320 * -1280(1)/-2560(2)/-3840(3)
+    //startX - panelCount * panelWidth * (block.length - 1) - lastCount * panelWidth
+    if (x === startX - panelCount * panelWidth * (block.length - 1)) {
       setTransitionValue('none')
-      setX(-panelCount * panelWidth)
+      setX((x) => 0)
+    
     } else if (x === 0) {
-      console.log(x)
       setTransitionValue('none') //b a b a
-      setX(-panelCount * panelWidth * filterBlock.length) // -1280*2
+      setX(startX - panelCount * panelWidth * (block.length - 1)) // -1280*2 //-panelCount * panelWidth * block.length
     }
   }
+
   useEffect(() => {
     if (trasitionValue === 'none') setTransitionValue(transitionDefault)
   }, [x])
@@ -86,9 +144,13 @@ function CategorySlide ({ width, count, children }) {
   }
   const makeBlock = el => {
     return (
-      <Block>
+      <Block className='Block'>
         {el.map((e, idx) => (
-          <CardWrapper size={panelWidth} key={idx + 'a'}>
+          <CardWrapper
+            className='CardWrapper'
+            size={panelWidth}
+            key={idx + 'a'}
+          >
             {e}
           </CardWrapper>
         ))}
@@ -96,23 +158,24 @@ function CategorySlide ({ width, count, children }) {
     )
   }
   const ButtonArea = styled.div``
+
   return (
     <>
       <CategorySlideBlock>
         <CatgoryWrapper>
           <CategoryColumn style={ulStyles} onTransitionEnd={onTransitionEnd}>
-            {makeBlock(filterBlock[filterBlock.length - 1])}
-            {filterBlock.map(makeBlock)}
-            {makeBlock(filterBlock[0])}
+            {[
+              makeBlock(block[block.length - 1]),
+              ...block.map(makeBlock),
+              makeBlock(block[0])
+            ]}
           </CategoryColumn>
         </CatgoryWrapper>
       </CategorySlideBlock>
-
       <ButtonArea>
         <ButtonLeft onClick={onMove.bind(undefined, +1)}>
           <VscChevronLeft />
         </ButtonLeft>
-
         <ButtonRight onClick={onMove.bind(undefined, -1)}>
           <VscChevronRight />
         </ButtonRight>
