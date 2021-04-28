@@ -1,13 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+   <Router history={browserHistory}>
+   <Route path="/" component={App}>
+     
+   </Route>
+ </Router>,
   document.getElementById("root")
 );
 

@@ -28,6 +28,8 @@ const SearchBarIcon = styled.div`
 const HeaderLonIn = styled.button``;
 
 const HeaderCart = styled.button``;
+const url = `https://github.com/login/oauth/authorize?client_id=e1541c566570ff3e0151&redirect_uri=http://localhost:3000/logIn&scope=user
+`
 function HeaderRight() {
   return (
     <HeaderRightBlock>
@@ -35,7 +37,7 @@ function HeaderRight() {
       <SearchBarIcon>
         <BsSearch />
       </SearchBarIcon>
-      <HeaderLonIn>로그인</HeaderLonIn>
+      <HeaderLonIn><a href={url}>로그인</a></HeaderLonIn>
       <HeaderCart>장바구니</HeaderCart>
     </HeaderRightBlock>
   );
