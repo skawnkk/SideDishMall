@@ -61,6 +61,7 @@ function CategorySlide ({ width, count, duration, children }) {
     if (moving) return
     if (direction + 1) {
       setX(prevX => {
+        console.log(blockCount, "왼쪽")
         switch (blockCount) {
           case 1:
             return prevX + direction * lastCount * panelWidth
@@ -73,6 +74,7 @@ function CategorySlide ({ width, count, duration, children }) {
         }
       })
       setBlockCount(prevCnt => {
+        console.log(prevCnt)
         switch (blockCount) {
           case 0:
             return block.length
@@ -82,6 +84,7 @@ function CategorySlide ({ width, count, duration, children }) {
       })
     } else {
       setX(prevX => {
+        console.log(blockCount, "오른쪽")
         switch (blockCount) {
           case block.length - 1: case 0:
             return prevX + direction * lastCount * panelWidth
@@ -93,6 +96,7 @@ function CategorySlide ({ width, count, duration, children }) {
       })
 
       setBlockCount(prevCnt => {
+        console.log(prevCnt)
         switch (blockCount) {
           case block.length:
             return 0
