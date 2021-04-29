@@ -9,7 +9,7 @@ const Card = styled.div`
 `
 const IMG = styled(AlignTextCenter)`
   width: ${props => {
-    return props.size === 'L' ? '384px' : '308px'
+    return props.size === 'L' ? '384px' : 'auto'
   }};
   height: ${props => {
     return props.size === 'L' ? '384px' : '308px'

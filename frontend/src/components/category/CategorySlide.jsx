@@ -1,10 +1,8 @@
 import styled from 'styled-components'
-import { VscChevronLeft, VscChevronRight } from 'react-icons/vsc'
-import { AlignTextCenter } from '../Theme'
 import { useState, useEffect, useImperativeHandle, forwardRef } from 'react'
 
 const CatgoryWrapper = styled.div`
-  width: 1280px;
+  width: ${props=> `${props.width}px`};
   padding: 0px;
   overflow: hidden;
   border: 1px solid blue;
@@ -16,17 +14,6 @@ const CategorySlideBlock = styled.div`
   margin: 0 auto;
   margin-bottom: 80px;
 `
-const Button = styled.button`
-  font-size: 36px;
-  border: none;
-  background-color: transparent;
-  &:focus {
-    outline: none;
-  }
-  cursor: pointer;
-`
-const ButtonLeft = styled(Button)``
-const ButtonRight = styled(Button)``
 
 const CardWrapper = styled.div`
   display: flex;
@@ -42,16 +29,18 @@ const Block = styled.div`
 function CategorySlide ({ width, count, duration, children }, ref) {
   const transitionDefault = `all ${duration}`
   const panelWidth = width / count //320
-  const panelCount = count
+ 
+
   let block = []
   for (let i = 0; i < children.length; i += count) {
     block.push(children.slice(i, i + count)) //4-8:4567 //8-12: 891011
   }
   const lastCount = block[block.length - 1].length
-  console.log(lastCount)
-  const startX = -panelCount * panelWidth
-  // const filterBlock = block.filter((el) => el.length !== 0);
-  const [x, setX] = useState(startX) //-1280 //-panelCount * panelWidth
+
+  const startX = - width - lastCount * panelWidth
+
+
+  const [x, setX] = useState(startX) 
   const [moving, setMoving] = useState(false)
   const [blockCount, setBlockCount] = useState(1)
   const [trasitionValue, setTransitionValue] = useState(transitionDefault)
@@ -65,11 +54,11 @@ function CategorySlide ({ width, count, duration, children }, ref) {
           case block.length:
             return prevX + direction * lastCount * panelWidth
           default:
-            return prevX + direction * panelCount * panelWidth
+            return prevX + direction * width
         }
       })
       setBlockCount(prevCnt => {
-        console.log(prevCnt)
+
         switch (blockCount) {
           case 1:
             return block.length
@@ -84,12 +73,11 @@ function CategorySlide ({ width, count, duration, children }, ref) {
           case block.length - 1:
             return prevX + direction * lastCount * panelWidth
           default:
-            return prevX + direction * panelCount * panelWidth
+            return prevX + direction * width
         }
       })
 
       setBlockCount(prevCnt => {
-        console.log(prevCnt)
         switch (blockCount) {
           case block.length:
             return 1
@@ -103,28 +91,23 @@ function CategorySlide ({ width, count, duration, children }, ref) {
   }
 
   useImperativeHandle(ref, () => ({
-    slideToLeft: onMove.bind(undefined, +1),
-    slideToRight: onMove.bind(undefined, -1)
+    slideToLeft: onMove.bind(undefined, -1),
+    slideToRight: onMove.bind(undefined, +1)
   }))
   const onTransitionEnd = () => {
     setMoving(false)
-    //(-1) * 4 * 320 * -1280(1)/-2560(2)/-3840(3)
-    //startX - panelCount * panelWidth * (block.length - 1) - lastCount * panelWidth
-    if (
-      x ===
-      startX -
-        panelCount * panelWidth * (block.length - 1) -
-        lastCount * panelWidth
+    if (blockCount === 1 && x < startX -
+      width * (block.length - 1) 
     ) {
       setTransitionValue('none')
       setX(x => startX)
-    } else if (x === 0) {
+    } else if (blockCount === block.length && x > startX) {
       setTransitionValue('none') //b a b a
       setX(
         startX -
-          panelCount * panelWidth * (block.length - 2) -
+        width * (block.length - 2) -
           lastCount * panelWidth
-      ) // -1280*2 //-panelCount * panelWidth * block.length
+      ) 
     }
   }
 
@@ -151,22 +134,15 @@ function CategorySlide ({ width, count, duration, children }, ref) {
       </Block>
     )
   }
-  const ButtonArea = styled.div``
-  // useEffect (()=>{
-  //   buttonLeft.current.addEventListener('click',()=> onMove )
-  //   return ()=>
-  //     buttonLeft.current.removeEventListener("click");
-  // })
+ 
+ 
   return (
     <>
       <CategorySlideBlock>
-        <CatgoryWrapper>
+        <CatgoryWrapper width={width}>
           <CategoryColumn style={ulStyles} onTransitionEnd={onTransitionEnd}>
             {[
-              makeBlock([
-                block[block.length - 2][block[block.length - 2].length - 1],
-                ...block[block.length - 1]
-              ]),
+               makeBlock(block[block.length - 2]) ,makeBlock(block[block.length - 1]),
               ...block.map(makeBlock),
               makeBlock(block[0])
             ]}

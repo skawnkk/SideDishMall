@@ -69,7 +69,7 @@ function CategoryList ({ title, num }) {
         <ButtonLeft onClick={handleRight}>
           <VscChevronLeft />
         </ButtonLeft>
-        <CategorySlide width={1280} count={4} duration={'.5s'} ref={button}>
+        <CategorySlide width={800} count={5} duration={'.5s'} ref={button}>
           {data.map((data, idx) => (
             <ItemCard key={idx} data={data} size={'S'} />
           ))}
