@@ -1,14 +1,21 @@
 import queryString from 'query-string'
 import styled from 'styled-components'
-import { useEffect } from 'react'
+import {useEffect} from 'react'
+import { useFetch } from './useFetch'
 const Oauth = props => {
   const result = queryString.parse(props.location.search)
-  console.log(result)
-  console.log(props)
-  //localhost:8080/login?code={result.code} put 요청
-  //   useEffect(() => {
-  //     props.history.push('/')
-  //   })
+ 
+  const url = process.env.REACT_APP_API_URL + `/login?code=${result.code}`
+  const [data, loading] = useFetch(url)
+  if (!loading) {
+    localStorage.setItem('isLogIn', 'true')
+    localStorage.setItem('userId', data.userId)
+    localStorage.setItem('token', data.token)
+  }
+  useEffect(()=>{
+
+  })
+
   const LogInLoading = styled.div`
     position: fixed;
     left: 0;
