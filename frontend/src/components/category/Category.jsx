@@ -42,7 +42,7 @@ function Category() {
 	return (
 		<>
 			<CategoryDiv>
-				<CategoryList title={'식탁을 풍성하게 하는 정갈한 밑반찬'} num={11} />
+				<CategoryList title={'식탁을 풍성하게 하는 정갈한 밑반찬'} num={8} />
 				<CategoryBtn onClick={() => handleClick(setToggle)}>
 					{toggle ? '카테고리 접기' : '모든 카테고리 보기'}
 				</CategoryBtn>
