@@ -8,7 +8,7 @@
 - 컴포넌트 트리
 ![최종트리](https://user-images.githubusercontent.com/65053955/116791272-1706dd00-aaf4-11eb-8b5c-602a360b0613.png)
 
--API 요청: [API Docs](https://todolist-2.gitbook.io/side-dish/)
+- API 요청: [API Docs](https://todolist-2.gitbook.io/side-dish/)
 
 - 로그인/로그아웃 기능 구현
 <img width="80%" src="https://user-images.githubusercontent.com/65053955/116785846-a9988380-aad6-11eb-8c61-f9227902e5d7.gif"/>
