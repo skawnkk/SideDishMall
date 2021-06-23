@@ -2,7 +2,7 @@
 그룹프로젝트 #2
 
 -  팀활동: [위키_협업룰/회의록/회고](https://github.com/skawnkk/sidedish/wiki)
--  
+
 - 프로젝트 구조  
 ![프로젝트 구조](https://user-images.githubusercontent.com/65053955/116790138-c8eedb00-aaed-11eb-844c-f9dac1ce1563.PNG)
 
